@@ -1,0 +1,24 @@
+# Route 53 Clone — FastAPI backend (uvicorn)
+# Install to: /etc/systemd/system/route53-backend.service
+#
+# Assumes the repo lives at /opt/route53-clone and a virtualenv at
+# /opt/route53-clone/venv. Adjust User/paths if you deploy elsewhere.
+#
+# A single worker is intentional: SQLite has one writer, so multiple workers
+# only add lock contention. Scale by moving to Postgres first.
+
+[Unit]
+Description=Route 53 Clone API (FastAPI/uvicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/route53-clone/backend
+EnvironmentFile=/opt/route53-clone/backend/.env
+ExecStart=/opt/route53-clone/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
