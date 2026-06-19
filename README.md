@@ -88,6 +88,10 @@ route53-clone/
 
 ## Setup Instructions
 
+> **Deploying to a server?** See **[DEPLOY.md](./DEPLOY.md)** for the full, clean
+> guide — local development *and* a single-EC2 deployment (PM2 + nginx) with
+> troubleshooting. The quick local steps below are a condensed version.
+
 ### Prerequisites
 - **Python 3.10+**
 - **Node.js 18+**
