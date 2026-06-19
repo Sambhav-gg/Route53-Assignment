@@ -71,7 +71,25 @@ echo 'NEXT_PUBLIC_API_URL=' > .env.production
 npm run build
 ```
 
-## 6. Start both apps with systemd
+## 6. Start both apps
+
+Pick **one** process manager — PM2 (6a) **or** systemd (6b). Don't run both, or
+they'll fight over ports 8000/3000.
+
+### 6a. PM2 (recommended if you prefer Node tooling)
+
+```bash
+sudo npm install -g pm2
+cd /opt/route53-clone
+pm2 start deploy/ecosystem.config.js
+pm2 save
+pm2 startup            # prints a `sudo env PATH=... pm2 startup ...` command — run it
+```
+
+Useful: `pm2 status`, `pm2 logs`, `pm2 restart all`, `pm2 logs route53-backend`.
+After a `git pull`/rebuild: `pm2 restart all`.
+
+### 6b. systemd
 
 ```bash
 sudo cp /opt/route53-clone/deploy/route53-backend.service  /etc/systemd/system/
